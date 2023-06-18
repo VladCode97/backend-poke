@@ -1,12 +1,13 @@
-import {IRepository} from "../../../interfaces/repository/repository";
-import {IAggregate} from "../../../interfaces/aggregate.model";
+
 import {model, Model, Schema} from "mongoose";
+import { IAggregate } from "../../../models/interfaces/aggregate.model";
+import { IRepository } from "../../../models/interfaces/repository/repository";
 
 /**
  * T = Model in mongo
  * K = Model in domain
  */
-export abstract class MongoRepository<T, K extends IAggregate> implements IRepository<K> {
+export abstract class MongoManager<T, K extends IAggregate> implements IRepository<K> {
 
     private readonly model: Model<T>
 
@@ -23,8 +24,8 @@ export abstract class MongoRepository<T, K extends IAggregate> implements IRepos
         return this.model.find({});
     }
 
-    viewByCriteria(criteria: K): Promise<K[]> {
-        return this.model.find({...criteria});
+    viewByCriteria(criteria: Partial<K>): Promise<K[]> {
+        return this.model.find({criteria});
     }
 
     protected get Model(): Model<T> {

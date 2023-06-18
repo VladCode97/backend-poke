@@ -1,27 +1,21 @@
-import {IRepository} from "../models/interfaces/repository/repository";
-import {IUser} from "../models/interfaces/user.model";
-import {Body, Get, JsonController, Post, Res} from "routing-controllers";
-import {UserController} from "../controllers/user.controller";
-import {type} from "os";
-import {Response} from "express";
+import { Authorized, Get, JsonController, Res, UseBefore } from "routing-controllers";
+import { UserController } from "../controllers/user.controller";
+import { UserRepository } from "../database/mongo/repository/user.repository";
+import { JWTController } from "../controllers/jwt.controller";
+import { RoleEnum } from "../models/enums/role.enum";
 
-@JsonController('/user')
+@JsonController("/user")
+@UseBefore(JWTController.Instance.verifyToken)
+@Authorized(RoleEnum.ADMIN)
 export class UserView {
-    private readonly userController: UserController;
+  private readonly userController: UserController;
 
-    constructor() {
-        this.userController = new UserController();
-    }
+  constructor() {
+    this.userController = new UserController(new UserRepository());
+  }
 
-    @Post('/')
-    create(@Body() user: IUser): Promise<IUser> {
-        return this.userController.create(user);
-    }
-
-    @Get('/')
-    async viewAll(@Res() response: Response) {
-        return await this.userController.viewAll();
-    }
-
-
+  @Get("/")
+  async viewAll() {
+    return await this.userController.viewAll();
+  }
 }

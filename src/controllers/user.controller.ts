@@ -1,24 +1,10 @@
+import { UserRepository } from "../database/mongo/repository/user.repository";
 import {IRepository} from "../models/interfaces/repository/repository";
 import {IUser} from "../models/interfaces/user.model";
-import {UserRepository} from "../models/database/mongo/repository/user.repository";
 
 export class UserController implements IRepository<IUser> {
 
-    private readonly userRepository: UserRepository;
-
-    constructor() {
-        this.userRepository = new UserRepository();
-    }
-
-    async create(user: IUser): Promise<IUser> {
-        try {
-            user.createdAt = new Date();
-            user.updatedAt = new Date();
-            return await this.userRepository.create(user);
-        } catch (exception: unknown) {
-            throw new Error(exception as string);
-        }
-    }
+    constructor(private readonly userRepository: UserRepository) {}
 
     async viewAll(): Promise<IUser[]> {
         try {
@@ -27,4 +13,14 @@ export class UserController implements IRepository<IUser> {
             throw new Error(exception as string);
         }
     }
+
+    async updateInformationUser(criteria: IUser, data: IUser): Promise<string> {
+        try {
+            await this.userRepository.updateInformationUser(criteria, data);
+            return "User updated";
+        } catch (exception: unknown) {
+            throw new Error(exception as string);
+        }
+    }
+
 }
