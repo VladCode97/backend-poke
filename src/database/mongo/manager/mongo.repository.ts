@@ -1,7 +1,6 @@
-
 import {model, Model, Schema} from "mongoose";
-import { IAggregate } from "../../../models/interfaces/aggregate.model";
-import { IRepository } from "../../../models/interfaces/repository/repository";
+import {IAggregate} from "../../../domain/models/aggregate.model";
+import {IRepository} from "../../../domain/repository/repository";
 
 /**
  * T = Model in mongo
@@ -15,6 +14,10 @@ export abstract class MongoManager<T, K extends IAggregate> implements IReposito
         this.model = model<T, Model<T>>(collection, schema)
     }
 
+    protected get Model(): Model<T> {
+        return this.model;
+    }
+
     async create(data: K): Promise<K> {
         await this.model.create(data);
         return data;
@@ -22,14 +25,6 @@ export abstract class MongoManager<T, K extends IAggregate> implements IReposito
 
     viewAll(): Promise<K[]> {
         return this.model.find({});
-    }
-
-    viewByCriteria(criteria: Partial<K>): Promise<K[]> {
-        return this.model.find({criteria});
-    }
-
-    protected get Model(): Model<T> {
-        return this.model;
     }
 
 }

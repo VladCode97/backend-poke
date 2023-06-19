@@ -1,4 +1,5 @@
 import {Document} from 'mongoose';
-import { IUser } from '../../../../models/interfaces/user.model';
+import {IUser} from '../../../../domain/models/user.model';
 
-export interface IUserDocumentMongo extends IUser, Document {}
+export interface IUserDocumentMongo extends IUser, Document {
+}

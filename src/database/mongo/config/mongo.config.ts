@@ -19,8 +19,8 @@ export class MongoSingleton {
 
     public async establishConnection() {
         try {
-            await Mongoose.connect("mongodb+srv://luis:test@waco-test.zknxhmx.mongodb.net/?retryWrites=true&w=majority");
-            console.log("Connected successfully");
+            await Mongoose.connect(String(process.env.URL_CONNECTION_MONGO));
+            console.log("Connected successfully in MongoDB");
         } catch (exception: unknown) {
             console.error(exception);
         }

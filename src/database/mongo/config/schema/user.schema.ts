@@ -1,5 +1,5 @@
 import {Schema} from "mongoose";
-import { IUserDocumentMongo } from "../documents/user.document";
+import {IUserDocumentMongo} from "../documents/user.document";
 
 export const UserSchema: Schema<IUserDocumentMongo> = new Schema({
     idDocument: {

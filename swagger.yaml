@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: Swagger WACO TEST
+  description: |-
+    Swagger documenting test backend for nodejs developer in WACO
+  contact:
+    email: luisbtcreative@gmail.com
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: auth
+    description: Access the api
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: favorites
+    description: Displays all of a user's favorite pokemons
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
+  - name: user
+    description: Operations about user
+paths:
+  /auth/signUp:
+    post:
+      tags:
+        - auth
+      summary: Sign Up user
+      description: Can sign up user
+      operationId: signUp
+      requestBody:
+        description: Sign up user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+          default:
+            description: user register
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+  /auth/signIn:
+    post:
+      tags:
+        - auth
+      summary: Sign in user
+      description: Can sign in user
+      operationId: signIp
+      requestBody:
+        description: Sign in user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthUser'
+      responses:
+        default:
+          description: user register
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUser'
+  /user:
+    get:
+      tags:
+        - user
+      summary: view all user
+      description: This can only be done by the logged in user.
+      operationId: viewAllUser
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /favorites:
+      post:
+        tags:
+          - favorites
+        summary: add pokemon to list user
+        description: This can only be done by the logged in user to add pokemon
+        operationId: addPokemon
+        responses:
+          default:
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Favorites'
+  /:idUser:
+    get:
+      tags:
+        - favorites
+      summary: Displays a user's favorite pokemons
+      description: This can only be done by the logged in user to display pokemon
+      operationId: displayPokemon
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Favorites'
+
+  /:idUser/:name:
+    delete:
+      tags:
+        - favorites
+      summary: Removes a pokemon from the favorites list
+      description: This can only be done by the logged in user to display pokemon
+      operationId: removePokemon
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Favorites'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          format: int64
+          example: 'Luis Torres'
+        password:
+          type: string
+          example: 'sda23d'
+        username:
+          type: string
+          example: 'luisto'
+      xml:
+        name: user
+    AuthUser:
+        type: object
+        properties:
+          password:
+            type: string
+            example: 'sda23d'
+          username:
+            type: string
+            example: 'luisto'
+    Favorites:
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'bulbasaur'
+          versionPokemon:
+            type: string
+            example: 'red-blue'
+          photo:
+            type: string
+            example: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+          user:
+            type: number
+            example: '34'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
