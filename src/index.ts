@@ -27,8 +27,8 @@ async function main() {
     server.use("/swagger", async (request: Request, response: Response, next: NextFunction) => {
         next()
     }, serve, setup(await yamlHandler()))
-    server.listen(Number(process.env.PORT_SERVER), () =>
-        console.log(`http://localhost:${Number(process.env.PORT_SERVER)}`)
+    server.listen(Number(process.env.PORT), () =>
+        console.log(`http://localhost:${Number(process.env.PORT)}`)
     );
 }
 
