@@ -2,12 +2,12 @@
   "name": "backend-poke",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "start-dev": "tsc -w & nodemon -q -w build build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start-prod": "node build/index.js"
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
