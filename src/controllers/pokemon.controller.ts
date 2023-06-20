@@ -8,7 +8,7 @@ export class PokemonController {
 
     async createPokemon(pokemon: IPokemon) {
         try {
-            const pokemonResponse = await this.pokemonRepository.viewPokemonByName(pokemon.name);
+            const pokemonResponse = await this.pokemonRepository.viewPokemonByName(pokemon.name, pokemon.user.idDocument);
             if (pokemonResponse) {
                 return MessagesSystemEnum.POKEMON_ALREADY_EXIST;
             } else {
@@ -28,9 +28,9 @@ export class PokemonController {
         }
     }
 
-    async removePokemonByUser(name: string, idDocument: number) {
+    async removePokemonByUser(id: string) {
         try {
-            return this.pokemonRepository.removePokemonByUser(name, idDocument);
+            return this.pokemonRepository.removePokemonByUser(id);
         } catch (exception) {
             throw exception;
         }

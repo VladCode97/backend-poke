@@ -1,4 +1,4 @@
-import {Authorized, Body, Delete, Get, JsonController, Param, Post, UseBefore} from "routing-controllers";
+import {Authorized, Body, Delete, Get, JsonController, Param, Post, Req, UseBefore} from "routing-controllers";
 import {PokemonController} from "../controllers/pokemon.controller";
 import {PokemonRepository} from "../database/mongo/repository/pokemon.repository";
 import {IPokemon} from "../domain/models/pokemon.model";
@@ -7,7 +7,7 @@ import {RoleEnum} from "../domain/enums/role.enum";
 
 @JsonController('/favorites')
 @UseBefore(JWTController.Instance.verifyToken)
-@Authorized(RoleEnum.ADMIN)
+@Authorized([ RoleEnum.ADMIN, RoleEnum.USER])
 export class PokemonFavoritesView {
     private pokemonController: PokemonController;
 
@@ -25,9 +25,9 @@ export class PokemonFavoritesView {
         return this.pokemonController.viewListPokemonByUser(idUser);
     }
 
-    @Delete('/:idUser/:name')
-    async removePokemonByUser(@Param('idUser') idUser: number, @Param('name') name: string) {
-        return this.pokemonController.removePokemonByUser(name, idUser);
+    @Delete('/:idUser')
+    async removePokemonByUser(@Param('idUser') idUser: string) {
+        return this.pokemonController.removePokemonByUser(idUser);
     }
 
 }

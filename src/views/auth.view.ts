@@ -2,7 +2,6 @@ import {Body, JsonController, Post} from "routing-controllers";
 import {AuthController} from "../controllers/auth.controller";
 import {UserRepository} from "../database/mongo/repository/user.repository";
 import {AuthResponseOutput} from "../domain/types/auth.type";
-import {AuthDTO} from "./DTO/user.dto";
 import {IUser} from "../domain/models/user.model";
 
 @JsonController("/auth")
@@ -14,7 +13,7 @@ export class AuthView {
     }
 
     @Post("/signIn")
-    singIn(@Body() user: AuthDTO): Promise<AuthResponseOutput | string> {
+    singIn(@Body() user: IUser): Promise<AuthResponseOutput | string> {
         return this.authController.singIn(user);
     }
 

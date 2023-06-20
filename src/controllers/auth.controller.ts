@@ -20,6 +20,7 @@ export class AuthController {
                 );
                 return {
                     token,
+                    idDocument: userResponse.idDocument
                 };
             }
             return MessagesSystemEnum.USER_NOT_FOUND;

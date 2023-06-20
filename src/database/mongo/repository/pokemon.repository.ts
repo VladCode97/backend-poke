@@ -9,8 +9,8 @@ export class PokemonRepository extends MongoManager<IPokemonDocumentMongo, IPoke
         super(SchemaMongoEnum.FAVORITES_POKEMON, PokemonSchema);
     }
 
-    viewPokemonByName(namePokemon: string) {
-        return this.Model.findOne({name: namePokemon});
+    viewPokemonByName(namePokemon: string, userId: number) {
+        return this.Model.findOne({name: namePokemon, user: userId});
     }
 
     viewListPokemonByUser(idDocument: number) {
@@ -19,11 +19,8 @@ export class PokemonRepository extends MongoManager<IPokemonDocumentMongo, IPoke
         });
     }
 
-    removePokemonByUser(name: string, idDocument: number) {
-        return this.Model.findOneAndRemove({
-            name,
-            user: idDocument
-        })
+    removePokemonByUser(id: string) {
+    return this.Model.findByIdAndRemove(id)
     }
 
 }
